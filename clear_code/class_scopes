@@ -1,0 +1,27 @@
+# #scope problem
+# def update_health(amount):
+#     health += amount
+
+# health = 10
+# print(health)
+# update_health(20)
+# print(health)
+
+class Monster:
+    def __init__(self, health, energy):
+        self.health = health
+        self.energy = energy
+        # self.energy = self.set_energy(energy)
+        # self.set_energy(energy)
+
+    def update_energy(self, amount):
+        self.energy += amount
+
+    def set_energy(self, energy):
+        new_energy = energy * 2
+        self.energy = new_energy
+
+monster = Monster(100, 50)
+# monster.health += 20
+# print(monster.health)
+print(monster.energy)
