@@ -16,9 +16,10 @@ class User(ABC):
         raise NotImplementedError
     
 class Rider(User):
-    def __init__(self, name, email, nid):
+    def __init__(self, name, email, nid, current_location):
         self.current_ride = None
         self.wallet = 0
+        self.current_location = current_location
         super().__init__(name, email, nid)
 
     def display_profile(self):
@@ -28,12 +29,16 @@ class Rider(User):
         if amount > 0:
             self.wallet += amount
 
+    def update_location(self, current_location):
+        self.current_location = current_location
+
     def request_rider(self, location, destination):
         if not self.current_ride:
-            # to do --> set ride properly
-            # to do --> set current ride via ride match
-            ride_request = None
-            self.current_ride = None
+            # to do --> set ride properly  # Done
+            # to do --> set current ride via ride match  # Done
+            ride_request = Ride_request(self, destination)
+            ride_matcher = Ride_matching()
+            self.current_ride = ride_matcher.find_driver(ride_request)
 
 class Driver(User):
     def __init__(self, name, email, nid, current_location):
@@ -67,3 +72,20 @@ class Ride:
         self.end_time = datetime.now()
         self.rider.wallet -= self.estimated_fare
         self.driver.wallet += self.estimated_fare
+
+class Ride_request:
+    def __init__(self, rider, end_location):
+        self.rider = rider
+        self.end_location = end_location
+
+class Ride_matching:
+    def __init__(self):
+        self.aavailable_drivers = []
+
+    def find_driver(self, ride_request):
+        if self.aavailable_drivers > 0:
+            # to do --> find the closest driver of the rider
+            driver = self.aavailable_drivers[0]
+            ride = Ride(ride_request.rider.current_location, ride_request.end_location)
+            driver.accept_ride(ride)
+            return ride
