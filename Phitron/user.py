@@ -83,7 +83,7 @@ class Ride_matching:
         self.aavailable_drivers = []
 
     def find_driver(self, ride_request):
-        if self.aavailable_drivers > 0:
+        if len(self.aavailable_drivers) > 0:
             # to do --> find the closest driver of the rider
             driver = self.aavailable_drivers[0]
             ride = Ride(ride_request.rider.current_location, ride_request.end_location)
