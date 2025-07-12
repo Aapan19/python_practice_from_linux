@@ -1,6 +1,19 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
 
+class Ride_Sharing:
+    def __init__(self, company_name):
+        self.company_name = company_name
+        self.riders = []
+        self.drivers = []
+        self.rides = []
+
+    def add_rider(self, rider):
+        self.riders.append(rider)
+
+    def add_driver(self, driver):
+        self.drivers.append(driver)
+
 class User(ABC):
     def __init__(self, name, email, nid):
         self.name = name
@@ -16,9 +29,9 @@ class User(ABC):
         raise NotImplementedError
     
 class Rider(User):
-    def __init__(self, name, email, nid, current_location):
+    def __init__(self, name, email, nid, current_location, initial_amount):
         self.current_ride = None
-        self.wallet = 0
+        self.wallet = initial_amount
         self.current_location = current_location
         super().__init__(name, email, nid)
 
@@ -32,7 +45,7 @@ class Rider(User):
     def update_location(self, current_location):
         self.current_location = current_location
 
-    def request_rider(self, location, destination):
+    def request_ride(self, destination):
         if not self.current_ride:
             # to do --> set ride properly  # Done
             # to do --> set current ride via ride match  # Done
@@ -89,3 +102,35 @@ class Ride_matching:
             ride = Ride(ride_request.rider.current_location, ride_request.end_location)
             driver.accept_ride(ride)
             return ride
+        
+class Vehicle(ABC):
+
+    speed = {
+        'car' : 50,
+        'bike' : 60,
+        'cng' : 20
+    }
+
+    def __init__(self, vehicle_type, license_plate, rate):
+        self.vehicle_type = vehicle_type
+        self.license = license
+        self.rate = rate
+        self.status = 'available'
+
+    @abstractmethod
+    def start_drive(self):
+        pass
+
+class Car(Vehicle):
+    def __init__(self, vehicle_type, license_plate, rate):
+        super().__init__(vehicle_type, license_plate, rate)
+
+    def start_drive(self):
+        self.status = 'Unavailable'
+
+class Bike(Vehicle):
+    def __init__(self, vehicle_type, license_plate, rate):
+        super().__init__(vehicle_type, license_plate, rate)
+
+    def start_drive(self):
+        self.status = 'Unavailable'
